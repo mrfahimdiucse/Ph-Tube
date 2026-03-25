@@ -16,16 +16,16 @@ function showSpinner() {
   </div>`;
 }
 
-// Load all videos in the background (for search)
+// Preload all videos for search
 function preloadAllVideos() {
   fetch("https://openapi.programming-hero.com/api/phero-tube/videos")
     .then((res) => res.json())
     .then((data) => {
-      allVideos = data.videos; // store all videos for search
+      allVideos = data.videos;
     });
 }
 
-// Load All Videos (on click)
+// Load All Videos
 function loadAllVideos() {
   if (allVideos.length === 0) {
     showSpinner();
@@ -40,7 +40,7 @@ function loadAllVideos() {
   }
 }
 
-// Category Wise Video
+// Load Category Wise Videos
 function categorywiseVideo(category_id) {
   showSpinner();
   fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${category_id}`)
@@ -50,15 +50,14 @@ function categorywiseVideo(category_id) {
     });
 }
 
-// Display Videos with Verified Icon
+// Display Videos
 function displayAllVideo(videos) {
   const container = document.getElementById("categoryVideoContainer");
   container.innerHTML = "";
 
-  if (videos.length === 0) {
+  if (!videos || videos.length === 0) {
     container.innerHTML = `
         <div class="col-span-full text-center flex flex-col justify-center items-center py-10">
-            <img class="w-[120px]" src="https://img.icons8.com/?size=100&id=98A4yZTt9abw&format=png&color=000000" alt="">
             <h2 class="text-2xl font-bold text-gray-400 pt-5">No Videos Found</h2>
         </div>
     `;
@@ -69,7 +68,7 @@ function displayAllVideo(videos) {
     const div = document.createElement("div");
     const author = video.authors[0]; // assuming first author
     const verifiedIcon = author.verified
-      ? `<img class="inline w-5 ml-1" src="./assets/images/verified.png" alt="verified" />`
+      ? `<img class="inline w-5 ml-1" src="https://img.icons8.com/?size=100&id=98A4yZTt9abw&format=png&color=000000" alt="verified" />`
       : "";
 
     div.innerHTML = `
@@ -81,9 +80,10 @@ function displayAllVideo(videos) {
 
       <div class="flex flex-col gap-2 p-4 flex-1">
         <h1 class="text-lg font-bold">${video.title}</h1>
-        <p class="text-gray-400">
-          ${author.profile_name} ${verifiedIcon}
-        </p>
+        <div class="flex items-center gap-2">
+          <img class="w-8 h-8 rounded-full object-cover" src="${author.profile_picture}" alt="${author.profile_name}" />
+          <p class="text-gray-400">${author.profile_name} ${verifiedIcon}</p>
+        </div>
         <p class="text-gray-400">${video.others.views} Views</p>
       </div>
 
@@ -107,17 +107,17 @@ function loadCategories() {
   fetch("https://openapi.programming-hero.com/api/phero-tube/categories")
     .then((res) => res.json())
     .then((data) => {
-      displaycategoryContainer(data.categories);
+      displayCategoryContainer(data.categories);
       preloadAllVideos(); // preload all videos for search
     });
 }
 
 // Display Categories
-function displaycategoryContainer(categories) {
+function displayCategoryContainer(categories) {
   const categoryContainer = document.getElementById("categoryContainer");
   categoryContainer.innerHTML = "";
 
-  // Add "All" button first
+  // "All" button
   const allBtnDiv = document.createElement("div");
   allBtnDiv.innerHTML = `
       <button 
@@ -129,7 +129,7 @@ function displaycategoryContainer(categories) {
   `;
   categoryContainer.appendChild(allBtnDiv);
 
-  // Add category buttons
+  // Category buttons
   for (const cat of categories) {
     const category = document.createElement("div");
     category.innerHTML = `
@@ -144,20 +144,7 @@ function displaycategoryContainer(categories) {
   }
 }
 
-// Initial Calls
-loadCategories();
-
-// Search input listener
-document.querySelector('input[type="search"]').addEventListener("input", function () {
-  searchVideos(this.value);
-});
-
-// Load Blog
-document.getElementById("blogId").addEventListener("click", () => {
-  window.open("https://blog.google/products-and-platforms/products/youtube/", "_blank");
-});
-
-// Open Modal with Video Details (modal inside page div + backdrop)
+// Modal to show video details
 function openVideoModal(videoId) {
   const video = allVideos.find((v) => String(v.video_id) === String(videoId));
   if (!video) return;
@@ -169,10 +156,13 @@ function openVideoModal(videoId) {
 
   document.getElementById("modalContent").innerHTML = `
       <h2 id="modalTitle" class="text-2xl font-bold mb-2">${video.title}</h2>
-      <p id="modalDesc" class="text-gray-500 mb-2">By: ${author.profile_name} ${verifiedIcon}</p>
+      <div class="flex items-center gap-2 mb-2">
+        <img class="w-8 h-8 rounded-full object-cover" src="${author.profile_picture}" alt="${author.profile_name}" />
+        <p class="text-gray-500">By: ${author.profile_name} ${verifiedIcon}</p>
+      </div>
       <p class="text-gray-500 mb-2">Views: ${video.others.views}</p>
       <p class="text-gray-500 mb-2">Posted on: ${video.others.posted_date}</p>
-      <img class="w-full h-48 rounded-lg mb-4" src="${video.thumbnail}" alt="${video.title}" />
+      <img class="w-full h-48 rounded-lg mb-4 object-cover" src="${video.thumbnail}" alt="${video.title}" />
       <p class="text-gray-700">${video.description || "No description available."}</p>
   `;
 
@@ -180,14 +170,25 @@ function openVideoModal(videoId) {
   document.getElementById("modalBackdrop").classList.add("show");
 }
 
-// Close Modal (button)
+// Close Modal
 document.getElementById("closeModal").addEventListener("click", () => {
   document.getElementById("videoModal").classList.remove("show");
   document.getElementById("modalBackdrop").classList.remove("show");
 });
-
-// Close modal when clicking on backdrop
 document.getElementById("modalBackdrop").addEventListener("click", () => {
   document.getElementById("videoModal").classList.remove("show");
   document.getElementById("modalBackdrop").classList.remove("show");
 });
+
+// Search input listener
+document.querySelector('input[type="search"]').addEventListener("input", function () {
+  searchVideos(this.value);
+});
+
+// Load Blog
+document.getElementById("blogId").addEventListener("click", () => {
+  window.open("https://blog.google/products-and-platforms/products/youtube/", "_blank");
+});
+
+// Initial load
+loadCategories();

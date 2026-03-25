@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Video Page</title>
+  <link rel="stylesheet" href="./assets/css/index.css">
+  <!-- Daisy UI -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="mx-3 md:mx-5 lg:mx-10">
+
+  <!-- Header -->
+  <header class="flex flex-col md:flex-row justify-between items-center py-5 border-b-2 border-gray-200 gap-4 md:gap-0">
+    <div><img class="w-[120px]" src="./assets/images/Logo.png" alt="Logo"></div>
+
+    <!-- Search Box -->
+    <div class="flex-1 max-w-md mx-auto md:mx-0 relative">
+  <input 
+    type="search" 
+    id="searchInput"
+    placeholder="Search videos..." 
+    class="w-full border rounded-md py-2 pl-10 pr-4 focus:outline-none focus:ring focus:ring-accent" 
+  />
+  <!-- Magnifying glass icon -->
+  <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="11" cy="11" r="8"/>
+    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+  </svg>
+</div>
+
+    <div><button id="blogId" onclick="loadBlog()" class="btn bg-[#FF1F3D] text-white">Blog</button></div>
+  </header>
+
+  <!-- Navbar / Categories -->
+  <nav id="categoryContainer" class="flex flex-wrap justify-center gap-2 mt-5">
+    <!-- Buttons inserted dynamically by JS -->
+  </nav>
+
+  <!-- Video Cards Section -->
+  <section class="mt-8">
+    <div id="categoryVideoContainer" class="grid gap-4 
+        grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <!-- Initial placeholder -->
+      <div class="col-span-full text-center flex flex-col justify-center items-center py-10">
+        <img class="w-[120px]" src="./assets/images/Icon.png" alt="">
+        <h2 class="text-2xl font-bold text-gray-400 pt-5">No Videos Found</h2>
+      </div>
+    </div>
+  </section>
+
+  <!-- JS -->
+  <script src="./assets/js/index.js"></script>
+
+<!-- Footer -->
+
+</body>
+</html>

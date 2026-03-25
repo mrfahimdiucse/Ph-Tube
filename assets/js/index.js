@@ -58,7 +58,7 @@ function displayAllVideo(videos) {
   if (videos.length === 0) {
     container.innerHTML = `
         <div class="col-span-full text-center flex flex-col justify-center items-center py-10">
-            <img class="w-[120px]" src="./assets/images/Icon.png" alt="">
+            <img class="w-[120px]" src="https://img.icons8.com/?size=100&id=98A4yZTt9abw&format=png&color=000000" alt="">
             <h2 class="text-2xl font-bold text-gray-400 pt-5">No Videos Found</h2>
         </div>
     `;

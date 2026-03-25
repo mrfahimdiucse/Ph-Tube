@@ -2,3 +2,49 @@
     background-color: #FF1F3D;
     color: white;
 }
+/* Backdrop styles */
+#modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  z-index: 999; /* below modal */
+}
+
+/* Modal styles */
+#videoModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  max-width: 600px;
+  width: 90%;
+  background: white;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  transform: translate(-50%, -50%);
+  display: none;
+  z-index: 1000; /* above backdrop */
+}
+
+/* Show class to toggle visibility */
+#modalBackdrop.show,
+#videoModal.show {
+  display: block;
+}
+
+/* Close button styling */
+#closeModal {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #555;
+}
+
+#closeModal:hover {
+  color: #000;
+}
